@@ -189,16 +189,13 @@ function displayFiles() {
             openButton.classList.add('action-btn');
 
             var linkButton = document.createElement('button');
-            linkButton.textContent = 'Link';
-            linkButton.onclick = (function(fileData, fileName) {
-                return function() {
-                    generateDownloadLink(fileData, fileName);
-                };
-            })(cursor.value.data, fileName);
-            linkButton.classList.add('action-btn');
-            
-            listItem.appendChild(linkButton);
-            
+      linkButton.textContent = 'Link';
+      linkButton.classList.add('action-btn');
+
+      linkButton.addEventListener('click', function() {
+        alert('Tombol Link Sedang Dalam Pembaruan:>>');
+    });
+  
             listItem.textContent = 'File ' + fileNumber + ': ' + fileName + ', Size: ' + fileSize;
             listItem.appendChild(downloadButton);
             listItem.appendChild(zipButton);
@@ -213,35 +210,6 @@ function displayFiles() {
     };
 }
 
-
-
-function generateDownloadLink(fileData, fileName) {
-    console.log("Generating download link for file:", fileName);
-
-    // Buat elemen tautan
-    var link = document.createElement('a');
-    link.textContent = 'Download ' + fileName;
-    link.classList.add('download-link');
-    
-    // Set atribut href
-    var url;
-    if (typeof fileData === 'string') {
-        // Jika fileData sudah berupa URL
-        url = fileData;
-    } else {
-        // Jika fileData adalah blob, buat URL untuknya
-        url = URL.createObjectURL(fileData);
-    }
-    link.setAttribute('href', url);
-    
-    // Atur atribut download
-    link.setAttribute('download', fileName);
-
-    // Tambahkan elemen tautan ke dokumen
-    var downloadSection = document.getElementById('downloadSection');
-    downloadSection.innerHTML = ''; // Hapus tautan sebelumnya jika ada
-    downloadSection.appendChild(link);
-}
 
   
 // Open file function
