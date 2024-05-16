@@ -213,34 +213,33 @@ function displayFiles() {
     };
 }
 
-function redirectToDownloadPage(fileData, fileName) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        var base64Data = event.target.result;
-        sessionStorage.setItem('fileData', base64Data);
-        sessionStorage.setItem('fileName', fileName);
-        window.location.href = 'download_page.html';
-    };
-    reader.readAsDataURL(fileData);
-}
 
 
 function generateDownloadLink(fileData, fileName) {
     console.log("Generating download link for file:", fileName);
 
-    // Tambahkan event listener ke tautan unduhan
+    // Buat elemen tautan
     var link = document.createElement('a');
     link.textContent = 'Download ' + fileName;
     link.classList.add('download-link');
-    link.setAttribute('href', 'download_page.html'); // Mengatur href ke '#' agar tidak mengarahkan ke halaman baru secara langsung
-    link.addEventListener('click', function(event) {
-        event.preventDefault(); // Menghentikan aksi default (mengikuti link)
-        redirectToDownloadPage(fileData, fileName); // Panggil fungsi untuk mengarahkan pengguna ke halaman unduhan
-    });
+    
+    // Set atribut href
+    var url;
+    if (typeof fileData === 'string') {
+        // Jika fileData sudah berupa URL
+        url = fileData;
+    } else {
+        // Jika fileData adalah blob, buat URL untuknya
+        url = URL.createObjectURL(fileData);
+    }
+    link.setAttribute('href', url);
+    
+    // Atur atribut download
+    link.setAttribute('download', fileName);
 
     // Tambahkan elemen tautan ke dokumen
     var downloadSection = document.getElementById('downloadSection');
-    downloadSection.innerHTML = '';
+    downloadSection.innerHTML = ''; // Hapus tautan sebelumnya jika ada
     downloadSection.appendChild(link);
 }
 
