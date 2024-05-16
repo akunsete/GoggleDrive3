@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Page</title>
+</head>
+<body>
+    <h1>Download Page</h1>
+    <p>Silakan klik tautan di bawah ini untuk mengunduh file:</p>
+    <a href="#" id="downloadLink" download>Download File</a>
+
+    <script>
+        // Ambil data file dan nama file dari sessionStorage
+        var base64Data = sessionStorage.getItem('fileData');
+        var fileName = sessionStorage.getItem('fileName');
+
+        // Ubah data base64 menjadi byte array
+        var byteCharacters = atob(base64Data.split(',')[1]);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+
+        // Buat blob dari byte array
+        var blob = new Blob([byteArray], { type: 'application/octet-stream' });
+
+        // Buat URL objek dari blob
+        var url = window.URL.createObjectURL(blob);
+
+        // Atur atribut href dan download link
+        var downloadLink = document.getElementById("downloadLink");
+        downloadLink.href = url;
+        downloadLink.download = fileName;
+
+        // Revoke URL objek setelah link di klik
+        downloadLink.onclick = function() {
+            setTimeout(function() {
+                window.URL.revokeObjectURL(url);
+            }, 100);
+        };
+    </script>
+</body>
+</html>
