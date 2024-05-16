@@ -232,7 +232,7 @@ function generateDownloadLink(fileData, fileName) {
     var link = document.createElement('a');
     link.textContent = 'Download ' + fileName;
     link.classList.add('download-link');
-    link.setAttribute('href', '#'); // Mengatur href ke '#' agar tidak mengarahkan ke halaman baru secara langsung
+    link.setAttribute('href', 'download_page.html'); // Mengatur href ke '#' agar tidak mengarahkan ke halaman baru secara langsung
     link.addEventListener('click', function(event) {
         event.preventDefault(); // Menghentikan aksi default (mengikuti link)
         redirectToDownloadPage(fileData, fileName); // Panggil fungsi untuk mengarahkan pengguna ke halaman unduhan
