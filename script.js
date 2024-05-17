@@ -725,6 +725,17 @@ function startCamera() {
     }
 }
 
+function switchCamera() {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        stopCamera();
+        currentFacingMode = currentFacingMode === 'user' ? 'environment' : 'user';
+        startCamera();
+    } else {
+        alert("This feature is only available on mobile devices.");
+    }
+}
+
+
 function capturePhoto() {
   var video = document.getElementById('video');
   var canvas = document.getElementById('canvas');
